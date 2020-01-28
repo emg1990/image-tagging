@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
 import { Popover, Chip } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import ImageSlider from './ImageSlider';
 
-function ImageTagger() {
+const useStyles = makeStyles({
+  dropdown: {
+    maxHeight: 200,
+    width: 150,
+  },
+  dropdowItem: {
+    margin: 12,
+  }
+});
+
+const ImageTagger = () => {
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [clickCoordinates, setCoordinates] = useState([0,0]);
   const [images, setImages] = useState([
@@ -50,7 +62,7 @@ function ImageTagger() {
   };
   const filteredTags = tags.filter((tag) => (selected.tags.findIndex((tg) => (tg.id === tag.id)) === -1))
   return (
-    <div className="my-carousel">
+    <div>
       <ImageSlider
         images={images}
         open={open}
@@ -70,9 +82,9 @@ function ImageTagger() {
           horizontal: 'left',
         }}
       >
-        <div style={{ maxHeight: 100 }}>
-          {filteredTags.length === 0 && <><p style={{ margin: 10, }}>No tags available</p><hr/></>}
-          {filteredTags.map((tag) => (<><p onClick={() => handleAddTag(tag)} style={{ margin: 10 }} key={tag.id}>{tag.label}</p><hr/></>))}
+        <div className={classes.dropdown}>
+          {filteredTags.length === 0 && <><p className={classes.dropdowItem}>No tags available</p><hr/></>}
+          {filteredTags.map((tag) => (<><p onClick={() => handleAddTag(tag)} className={classes.dropdowItem} key={tag.id}>{tag.label}</p><hr/></>))}
         </div>
       </Popover>
     </div>
