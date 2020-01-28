@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import ImageTagger from './ImageTagger';
+import ImageTagger from './components/ImageTagger';
 
 function App() {
   return (
