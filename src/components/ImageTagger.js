@@ -12,6 +12,7 @@ const useStyles = makeStyles({
   },
   dropdowItem: {
     margin: 12,
+    cursor: 'pointer',
   },
   tagsContainer: { marginTop: -140, marginLeft: 15 },
   tags: { marginRight: 15 },
