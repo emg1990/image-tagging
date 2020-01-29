@@ -38,6 +38,9 @@ const fakeCall = (url) => {
     case '/images':
       data = images;
       break;
+    case '/image':
+      data = [images[Math.floor(Math.random()*images.length)]];
+      break;
     case '/tagImage':
       data = {};
       break;

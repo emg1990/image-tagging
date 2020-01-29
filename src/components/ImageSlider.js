@@ -17,17 +17,18 @@ const useStyles = makeStyles({
 function ImageSlider({ images = [], setOpen = () => {}, setCoordinates = () => {},
   selected = { url: '' }, setSelected = () => {} }) {
   const classes = useStyles();
+  const handleClickImage = (e) => {
+    setCoordinates([e.pageX, e.pageY]);
+    setOpen(true);
+  };
   return (
     <>
       <div className={classes.imagePreviewContainer}>
         <img
           src={selected.imageUrl}
           className={classes.imagePreview}
-          onClick={(e) => {
-            setCoordinates([e.pageX, e.pageY]);
-            setOpen(true);
-          }}
-          alt={selected.title}
+          onClick={handleClickImage}
+          alt="image preview"
         />
       </div>
       <div className={classes.thumbnailContainer}>
@@ -37,7 +38,7 @@ function ImageSlider({ images = [], setOpen = () => {}, setCoordinates = () => {
             className={classes.thumbnails}
             onClick={() => setSelected(img)}
             key={i}
-            alt={selected.title}
+            alt={`image thumbnail ${i}`}
           />
         ))}
       </div>
