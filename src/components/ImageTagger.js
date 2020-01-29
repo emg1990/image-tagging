@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Popover, Chip } from '@material-ui/core';
+import { Popover, Chip, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ImageSlider from './ImageSlider';
-import { getTags, getImages, tagImage, untagImage } from '../api/api';
+import { getTags, getImages, getImage, tagImage, untagImage } from '../api/api';
 
 const useStyles = makeStyles({
   taggerContainer: { paddingTop: '2vh' },
@@ -25,6 +25,7 @@ const ImageTagger = () => {
   const [images, setImages] = useState([]);
   const [selected, setSelected] = useState({});
   const [tags, setTags] = useState([]);
+  const [isSingleImage, setIsSingleImage] = useState(true);
   useEffect(() => {
     getImages((imgs) => { setImages(imgs); setSelected(imgs[0]); }, console.log);
     getTags(setTags, console.log);
@@ -57,10 +58,19 @@ const ImageTagger = () => {
     auxImages[auxImages.findIndex((img) => img.id === selected.id)] = tag;
     setImages(auxImages);
   };
+  const handleToggleImage = () => {
+    if (isSingleImage) getImage((imgs) => { setImages(imgs); setSelected(imgs[0]); }, console.log);
+    else getImages((imgs) => { setImages(imgs); setSelected(imgs[0]); }, console.log);
+    setImages([]);
+    setIsSingleImage(!isSingleImage);
+  };
   const filteredTags = tags.filter((tag) => ((selected.tags || []).findIndex((tg) => (tg.id === tag.id)) === -1));
   return (
     <div className={classes.taggerContainer}>
-      <span className={classes.title}>Image Tagger (click on image)</span>
+      <span className={classes.title}>
+        Image Tagger (click on image)
+        <Button color="primary" onClick={handleToggleImage}>Toggle image/images</Button>
+      </span>
       {images.length > 0 && Object.keys(selected).length > 0
         ? (
           <>
@@ -96,10 +106,10 @@ const ImageTagger = () => {
             >
               <div className={classes.dropdown}>
                 {filteredTags.length === 0 && (
-                <div>
-                  <p className={classes.dropdowItem}>No tags available</p>
-                  <hr />
-                </div>
+                  <div>
+                    <p className={classes.dropdowItem}>No tags available</p>
+                    <hr />
+                  </div>
                 )}
                 {filteredTags.map((tag) => (
                   <div onClick={() => handleAddTag(tag)} className={classes.dropdowItem} key={tag.id}>
