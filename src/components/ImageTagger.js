@@ -26,8 +26,10 @@ const ImageTagger = () => {
   const [selected, setSelected] = useState({});
   const [tags, setTags] = useState([]);
   const [isSingleImage, setIsSingleImage] = useState(true);
+
+  const imagesSuccess = (imgs) => { setImages(imgs); setSelected(imgs[0]); };
   useEffect(() => {
-    getImages((imgs) => { setImages(imgs); setSelected(imgs[0]); }, console.log);
+    getImages(imagesSuccess, console.log);
     getTags(setTags, console.log);
   }, []);
   const handleAddTag = (tag) => {
@@ -59,8 +61,8 @@ const ImageTagger = () => {
     setImages(auxImages);
   };
   const handleToggleImage = () => {
-    if (isSingleImage) getImage((imgs) => { setImages(imgs); setSelected(imgs[0]); }, console.log);
-    else getImages((imgs) => { setImages(imgs); setSelected(imgs[0]); }, console.log);
+    if (isSingleImage) getImage(imagesSuccess, console.log);
+    else getImages(imagesSuccess, console.log);
     setImages([]);
     setIsSingleImage(!isSingleImage);
   };
